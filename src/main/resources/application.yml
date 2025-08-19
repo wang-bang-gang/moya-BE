@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: moya
+  profiles:
+    active: dev
+
