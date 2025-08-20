@@ -11,7 +11,7 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     /**
-     * 해커톤 테스트 : 사용자 위치 기준 20km 반경 내 관광지를 거리순으로 조회
+     * 해커톤 테스트 : 사용자 위치 기준 30km 반경 내 관광지를 거리순으로 조회
      * 추후 : 사용자 위치 기준 15km 반경 내 관광지를 거리순으로 조회
      * Haversine 공식을 사용하여 거리 계산
      *
@@ -47,7 +47,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
             COS(RADIANS(:userLat)) * COS(RADIANS(p.lat)) * 
             COS(RADIANS(p.lng) - RADIANS(:userLng)) + 
             SIN(RADIANS(:userLat)) * SIN(RADIANS(p.lat))
-        )) <= 20
+        )) <= 30
         ORDER BY (6371 * ACOS(
             COS(RADIANS(:userLat)) * COS(RADIANS(p.lat)) * 
             COS(RADIANS(p.lng) - RADIANS(:userLng)) + 
