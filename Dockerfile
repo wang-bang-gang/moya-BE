@@ -1,40 +1,26 @@
-# Stage 1: Build the frontend
-FROM node:20.14.0 AS frontend-build
-
-WORKDIR /app
-COPY reactworkspace/myapp/package*.json ./
-RUN npm install
-COPY reactworkspace/myapp ./
-RUN npm run build
-
-# Stage 2: Build the backend
-FROM gradle:7.5.1-jdk17 AS backend-build
-
-WORKDIR /app
-COPY backend/build.gradle backend/settings.gradle ./
-COPY backend/src ./src
-RUN gradle clean build
-
-# Stage 3: Create the final image
 FROM openjdk:17-jdk-slim
 
-# Set up the backend
-COPY --from=backend-build /app/build/libs/*.jar /app/app.jar
+# 작업 디렉토리 설정
+WORKDIR /app
 
-# Set up the frontend
-RUN apt-get update && apt-get install -y nginx
-COPY --from=frontend-build /app/dist /usr/share/nginx/html
+# Gradle wrapper와 build 파일들 복사
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
 
-# Nginx 설정 파일 복사
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
+# 소스 코드 복사
+COPY src src
 
-# Expose ports
-EXPOSE 8080 80
+# 실행 권한 부여 및 빌드
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar --no-daemon
 
-# Copy the start script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# JAR 파일을 app.jar로 이름 변경
+RUN mv build/libs/*.jar app.jar
 
-# Start the applications
-CMD ["/start.sh"]
+# 포트 노출
+EXPOSE 8080
+
+# 애플리케이션 실행
+ENTRYPOINT ["java", "-jar", "app.jar"]
