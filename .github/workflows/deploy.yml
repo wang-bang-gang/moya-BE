@@ -23,6 +23,7 @@ jobs:
         script: |
           cd moya-BE
           git pull origin main
+
           
           # 기존 컨테이너 정지 및 제거
           docker stop moya-backend-container || true
