@@ -30,7 +30,7 @@ public class PlaceController {
             @RequestParam("lat") Double lat,
             @RequestParam("lng") Double lng,
             @RequestParam(value = "locale", defaultValue = "ko") String locale) {
-
+ 
         try {
             List<PlaceListItem> places = placeNearbyService.getNearbyPlaces(lat, lng, locale);
             return ResponseEntity.ok(places);
