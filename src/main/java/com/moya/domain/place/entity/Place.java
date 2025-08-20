@@ -15,10 +15,10 @@ public class Place {
     @Column(name = "is_published", nullable = false)
     private boolean published;
 
-    @Column(name = "lat", nullable = false, precision = 9, scale = 6)
+    @Column(name = "lat", nullable = false)
     private Double lat;
 
-    @Column(name = "lng", nullable = false, precision = 12, scale = 8)
+    @Column(name = "lng", nullable = false)
     private Double lng;
 
     @Column(name = "`like`")
