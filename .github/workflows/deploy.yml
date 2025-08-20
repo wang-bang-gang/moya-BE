@@ -20,6 +20,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
+        timeout: 30m  # ⭐ 이 줄 추가!
         script: |
           cd moya-BE
           git pull origin main
@@ -29,13 +30,13 @@ jobs:
           docker rm moya-backend-container || true
           docker rmi moya-be || true
           
-          # 새 이미지 빌드 및 실행
-          docker build -t moya-be .
+          # 새 이미지 빌드 및 실행 (메모리 제한 추가)
+          docker build -t moya-be . --memory=1g  # ⭐ 메모리 제한
           docker run -d -p 8080:8080 --name moya-backend-container moya-be
           
           # 컨테이너 상태 확인
           docker ps
           
           # 로그 확인 (Spring Boot 시작 확인)
-          sleep 10
+          sleep 30  # ⭐ 시간 늘림
           docker logs moya-backend-container --tail 20
