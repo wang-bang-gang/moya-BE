@@ -2,6 +2,7 @@ package com.moya.domain.place.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.*;
 
 @Entity
 @Table(name = "place")
@@ -31,4 +32,9 @@ public class Place {
 
     @Column(name = "image", length = 512)
     private String imageUrl;
+
+    // i18n 연관관계 (공통 정보 <-> 다국어 )
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<PlaceI18n> i18ns = new ArrayList<>();
 }
+

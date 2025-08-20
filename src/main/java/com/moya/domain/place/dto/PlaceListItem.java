@@ -9,5 +9,6 @@ public record PlaceListItem(
         String imageUrl,
         boolean published,
         Integer likeCount,
-        Integer commentCount
+        Integer commentCount,
+        Number distance
 ) {}
