@@ -1,26 +1,24 @@
 FROM openjdk:17-jdk-slim
 
-# 작업 디렉토리 설정
 WORKDIR /app
 
-# Gradle wrapper와 build 파일들 복사
+# Gradle wrapper 파일들 먼저 복사
 COPY gradlew .
 COPY gradle gradle
+
+# 권한 설정
+RUN chmod +x ./gradlew
+
+# 프로젝트 파일들 복사
 COPY build.gradle .
 COPY settings.gradle .
-
-# 소스 코드 복사
 COPY src src
 
-# 실행 권한 부여 및 빌드
-RUN chmod +x ./gradlew
+# 빌드 (의존성 다운로드 + 컴파일)
 RUN ./gradlew bootJar --no-daemon
-
-# JAR 파일을 app.jar로 이름 변경
-RUN mv build/libs/*.jar app.jar
 
 # 포트 노출
 EXPOSE 8080
 
 # 애플리케이션 실행
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "build/libs/moya-0.0.1-SNAPSHOT.jar"]
