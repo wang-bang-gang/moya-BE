@@ -16,7 +16,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
      *
      * @param userLat 사용자 위도
      * @param userLng 사용자 경도
-     * @param locale 언어 코드 (ko, en 등)
+     * @param locale 언어 코드 (ko, en, jp, cn)
      * @return 거리순으로 정렬된 관광지 리스트
      */
     @Query("""
@@ -34,10 +34,12 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
                 COS(RADIANS(:userLat)) * COS(RADIANS(p.lat)) * 
                 COS(RADIANS(p.lng) - RADIANS(:userLng)) + 
                 SIN(RADIANS(:userLat)) * SIN(RADIANS(p.lat))
-            ))
+            )),
+            pa.audioPreviewKey
         )
         FROM Place p 
         JOIN p.i18ns i 
+        LEFT JOIN PlaceAudio pa ON p.placeNo = pa.id.placeNo AND pa.id.audioLocale = :locale
         WHERE p.published = true 
         AND i.id.placeLocale = :locale
         AND (6371 * ACOS(
