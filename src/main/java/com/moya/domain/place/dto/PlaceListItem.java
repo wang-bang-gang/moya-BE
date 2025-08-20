@@ -10,5 +10,6 @@ public record PlaceListItem(
         boolean published,
         Integer likeCount,
         Integer commentCount,
-        Number distance
+        Number distance,
+        String audioPreviewKey
 ) {}
