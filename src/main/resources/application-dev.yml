@@ -15,3 +15,7 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+  app:
+    cdn:
+      audio-base-url: https://cdn.example.com/audio
