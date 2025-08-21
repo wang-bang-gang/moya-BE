@@ -39,6 +39,7 @@ public class Place {
 
     // i18n 연관관계 (공통 정보 <-> 다국어 )
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @Builder.Default
     private List<PlaceI18n> i18ns = new ArrayList<>();
 }
 
