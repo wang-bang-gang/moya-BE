@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS place (
     lng             DECIMAL(12,8) NOT NULL,
     `like`          INT NULL,
     `comment`       INT NULL,
-    business_hours  VARCHAR(10) NULL,
+    business_hours  VARCHAR(32) NULL,
     image           VARCHAR(512) NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
