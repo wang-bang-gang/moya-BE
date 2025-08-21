@@ -1,4 +1,4 @@
-package com.moya.domain.dto;
+package com.moya.domain.place.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

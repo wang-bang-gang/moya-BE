@@ -1,8 +1,9 @@
 package com.moya.domain.place.controller;
 
+import com.moya.domain.place.dto.PlaceDetailDto;
 import com.moya.domain.place.dto.PlaceListItem;
+import com.moya.domain.place.service.PlaceDetailService;
 import com.moya.domain.place.service.PlaceNearbyService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,17 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/places")
-@RequiredArgsConstructor
 public class PlaceController {
 
     private final PlaceNearbyService placeNearbyService;
+    private final PlaceDetailService placeDetailService;
+
+    // 수동으로 의존성 주입
+    public PlaceController(PlaceNearbyService placeNearbyService,
+                           PlaceDetailService placeDetailService) {
+        this.placeNearbyService = placeNearbyService;
+        this.placeDetailService = placeDetailService;
+    }
 
     /**
      * 사용자 위치 기준 근처 관광지 조회 API
@@ -43,5 +51,12 @@ public class PlaceController {
             log.error("근처 관광지 조회 중 오류 발생", e);
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    // 관광지 상세 조회 API
+    @GetMapping("/{placeNo}/detail")
+    public PlaceDetailDto getPlaceDetail(@PathVariable Long placeNo,
+                                         @RequestParam(defaultValue = "ko") String locale) {
+        return placeDetailService.getPlaceDetail(placeNo, locale);
     }
 }
