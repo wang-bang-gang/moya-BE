@@ -1,5 +1,6 @@
 package com.moya.domain.place.controller;
 
+import com.moya.config.LocaleHolder;
 import com.moya.domain.place.dto.PlaceDetailDto;
 import com.moya.domain.place.dto.PlaceListItem;
 import com.moya.domain.place.service.PlaceDetailService;
@@ -40,6 +41,8 @@ public class PlaceController {
             @RequestParam(value = "locale", defaultValue = "ko") String locale) {
 
         try {
+            LocaleHolder.setLocale(locale);
+
             List<PlaceListItem> places = placeNearbyService.getNearbyPlaces(lat, lng, locale);
             return ResponseEntity.ok(places);
 
@@ -50,6 +53,8 @@ public class PlaceController {
         } catch (Exception e) {
             log.error("근처 관광지 조회 중 오류 발생", e);
             return ResponseEntity.internalServerError().build();
+        } finally {
+            LocaleHolder.clear();
         }
     }
 
