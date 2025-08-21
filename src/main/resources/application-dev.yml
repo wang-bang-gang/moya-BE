@@ -19,3 +19,21 @@ spring:
   app:
     cdn:
       audio-base-url: https://cdn.example.com/audio
+
+  web:
+    cors:
+      allowed-origins:
+        - "http://localhost:3000"
+        - "http://localhost:3001"
+        - "https://d2ji3w396izzkh.cloudfront.net/"
+        - "http://43.200.5.81/"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+      max-age: 3600
