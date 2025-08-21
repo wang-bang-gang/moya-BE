@@ -27,4 +27,14 @@ public class PlaceAudio {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_no", insertable = false, updatable = false)
     private Place place;
+
+    public static PlaceAudio of(Long placeNo, String locale, Place place,
+                                      String fullKey, Integer duration) {
+        return PlaceAudio.builder()
+                .id(new PlaceAudioId(placeNo, locale))
+                .place(place)
+                .audioFullKey(fullKey)
+                .audioDuration(duration)
+                .build();
+    }
 }

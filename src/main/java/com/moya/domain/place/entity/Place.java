@@ -6,7 +6,11 @@ import java.util.*;
 
 @Entity
 @Table(name = "place")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Place {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_no")
